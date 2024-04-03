@@ -1,12 +1,12 @@
 import time
 import tkinter
-
+from words import choose_words
 
 class App(tkinter.Tk):
     def __init__(self):
         super().__init__()
         self.title("Typing Speed")
-        self.minsize(width=400, height=600)
+        self.minsize(width=300, height=300)
         self.resizable(False, False)
         self.timer_count = 61
         self.create_widgets()
@@ -14,6 +14,7 @@ class App(tkinter.Tk):
     def create_widgets(self):
         self.create_timer()
         self.create_textbox()
+        self.create_text()
 
     def create_timer(self):
         timer_label = tkinter.Label(text="Timer: ")
@@ -21,12 +22,17 @@ class App(tkinter.Tk):
         self.timer = tkinter.Label(text="", fg="red")
         self.timer.grid(row=0, column=1, padx=5, pady=5)
         self.start_btn = tkinter.Button(text="Start!", command=self.start_timer)
-        self.start_btn.grid(row=2, column=0, padx=5, pady=5)
+        self.start_btn.grid(row=3, column=0, padx=5, pady=5)
 
     def create_textbox(self):
         self.textbox = tkinter.Text(width=35, height=5)
         self.textbox['state'] = 'disabled'
-        self.textbox.grid(row=1, column=0, columnspan=4, padx=7, pady=7)
+        self.textbox.grid(row=2, column=0, columnspan=4, padx=7, pady=7)
+
+    def create_text(self):
+        show_text = tkinter.Label(textvariable=choose_words())
+        show_text.grid(row=1, column=0, columnspan=4, padx=5, pady=5)
+
 
     def start_timer(self):
         self.timer_count = 60
