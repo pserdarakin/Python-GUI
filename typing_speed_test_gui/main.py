@@ -1,4 +1,3 @@
-import time
 import tkinter
 from words import choose_words
 
@@ -6,33 +5,38 @@ class App(tkinter.Tk):
     def __init__(self):
         super().__init__()
         self.title("Typing Speed")
-        self.minsize(width=300, height=300)
-        self.resizable(False, False)
+        self.geometry("400x350")
         self.timer_count = 61
+        self.string_var = tkinter.StringVar()
+        self.string_var.set(choose_words())
         self.create_widgets()
 
     def create_widgets(self):
         self.create_timer()
         self.create_textbox()
         self.create_text()
+        self.configure_grid()
 
     def create_timer(self):
-        timer_label = tkinter.Label(text="Timer: ")
-        timer_label.grid(row=0, column=0, padx=5, pady=5)
-        self.timer = tkinter.Label(text="", fg="red")
-        self.timer.grid(row=0, column=1, padx=5, pady=5)
-        self.start_btn = tkinter.Button(text="Start!", command=self.start_timer)
-        self.start_btn.grid(row=3, column=0, padx=5, pady=5)
+        timer_label = tkinter.Label(self, text="Timer: ", width=10)
+        timer_label.grid(row=0, column=0, padx=5, pady=5, sticky='ew')
+        self.timer = tkinter.Label(self, text="", fg="red", width=10)
+        self.timer.grid(row=0, column=1, padx=5, pady=5, sticky='ew')
+        self.start_btn = tkinter.Button(self, text="Start!", command=self.start_timer, width=10)
+        self.start_btn.grid(row=3, column=0, columnspan=2, padx=5, pady=20)
 
     def create_textbox(self):
-        self.textbox = tkinter.Text(width=35, height=5)
+        self.textbox = tkinter.Text(self, width=50, height=5)
         self.textbox['state'] = 'disabled'
-        self.textbox.grid(row=2, column=0, columnspan=4, padx=7, pady=7)
+        self.textbox.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
 
     def create_text(self):
-        show_text = tkinter.Label(textvariable=choose_words())
-        show_text.grid(row=1, column=0, columnspan=4, padx=5, pady=5)
+        show_text = tkinter.Label(self, textvariable=self.string_var, wraplength=350)
+        show_text.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
+    def configure_grid(self):
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
 
     def start_timer(self):
         self.timer_count = 60
@@ -62,7 +66,6 @@ class App(tkinter.Tk):
         popup.title("WPM Score")
         wpm_label = tkinter.Label(popup, text=f"Words per minute: {wpm}")
         wpm_label.pack(pady=20)
-
 
 app = App()
 app.mainloop()

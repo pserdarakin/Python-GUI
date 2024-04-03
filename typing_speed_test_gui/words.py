@@ -26,5 +26,5 @@ words = [
 
 
 def choose_words():
-    for i in range(20):
-        pick_words = random.choice(words)
+    selected_words = random.choices(words, k=40)
+    return ' '.join(selected_words)
